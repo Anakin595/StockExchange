@@ -24,14 +24,17 @@ class AccountsController {
         this.accountsRepository = accountsRepository
     }
 
-    @PostMapping('account')
-    Long createAccount(@RequestParam('account') Account account) {
-        accountsRepository.createNewAccount(account)
+    @PostMapping('/account')
+    Long registerAccount(@RequestParam('account') Account account) {
+        accountsRepository.registerAccount(account)
     }
 
     @GetMapping('/{id}')
+    @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     Account getAccountById(@PathVariable('id') Long id) {
         log.info("get account by id")
+        
+        
         accountsRepository.findById(id)
     }
 

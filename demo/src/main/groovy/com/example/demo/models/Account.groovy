@@ -1,15 +1,14 @@
 package com.example.demo.models
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import javax.validation.constraints.NotNull
+
 
 class Account {
 
     Long id
 
-    String username
-
-    @JsonIgnore
-    String password
+    @NotNull
+    Credentials credentials
 
     String name
 
