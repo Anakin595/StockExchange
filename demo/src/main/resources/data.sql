@@ -1,0 +1,1 @@
+insert into accounts values (1, 'admin', 'admin', 'John', 'Doe', 1550.5);

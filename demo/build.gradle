@@ -1,0 +1,56 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+    jwtVersion = '0.9.0'
+}
+
+bootRun {
+    jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=32323"]
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-mustache')
+    compile('org.springframework.boot:spring-boot-devtools')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-web-services')
+	implementation('org.springframework.boot:spring-boot-starter-websocket')
+	implementation('org.springframework.boot:spring-boot-starter-security')
+
+    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
+    implementation("com.h2database:h2")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+
+	implementation('org.codehaus.groovy:groovy')
+	implementation("org.webjars:webjars-locator-core")
+	implementation("org.webjars:sockjs-client:1.0.2")
+	implementation("org.webjars:stomp-websocket:2.3.3")
+	implementation("org.webjars:bootstrap:3.3.7")
+	implementation("org.webjars:jquery:3.1.0")
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
