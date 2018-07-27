@@ -1,16 +1,11 @@
 package com.example.demo.repository
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.stereotype.Repository
+import com.example.demo.models.Stocks
+import org.springframework.data.mongodb.repository.MongoRepository
 
-@Repository
-class StocksRepository {
+interface StocksRepository extends MongoRepository<Stocks, String> {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate
-
-
-
-
+    Stocks findByPublicationDate(Date date)
+    
+    
 }

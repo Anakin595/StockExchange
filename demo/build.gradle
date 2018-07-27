@@ -20,6 +20,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+	jcenter()
 	mavenCentral()
 }
 
@@ -37,19 +38,13 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
 	implementation('org.springframework.boot:spring-boot-starter-security')
-	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-web-services')
 	implementation('org.springframework.boot:spring-boot-starter-websocket')
-	
-	
-	implementation('org.springframework.security:spring-security-jwt:1.0.7.RELEASE')
-	implementation('org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE')
-	
 
-    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-    implementation("com.h2database:h2")
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-
+	implementation "com.netflix.hystrix:hystrix-core:1.5.12"
+	
+	implementation('org.springframework.data:spring-data-mongodb:2.0.8.RELEASE')
+	
 	implementation('org.codehaus.groovy:groovy')
 	implementation("org.webjars:webjars-locator-core")
 	implementation("org.webjars:sockjs-client:1.0.2")
@@ -57,5 +52,12 @@ dependencies {
 	implementation("org.webjars:bootstrap:3.3.7")
 	implementation("org.webjars:jquery:3.1.0")
 
+	/**
+	 * Swagger
+	 */
+	compile "io.springfox:springfox-swagger2:2.7.0"
+	compile "io.springfox:springfox-swagger-ui:2.7.0"
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
 }

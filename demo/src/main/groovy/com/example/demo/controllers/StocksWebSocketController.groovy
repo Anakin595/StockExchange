@@ -1,39 +1,49 @@
 package com.example.demo.controllers
 
+import com.example.demo.clients.WebTaskClient
 import com.example.demo.models.Stocks
-import com.example.demo.models.TestResponse
+import com.example.demo.repository.StocksRepository
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Controller
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.ResourceAccessException
 
 @Controller
 @Slf4j
 class StocksWebSocketController {
 
     private SimpMessagingTemplate messagingTemplate
+    
+    private StocksRepository stocksRepository
+    
+    private WebTaskClient webTaskClient
 
     @Autowired
-    StocksWebSocketController(SimpMessagingTemplate messagingTemplate) {
+    StocksWebSocketController(SimpMessagingTemplate messagingTemplate, StocksRepository stocksRepository, WebTaskClient webTaskClient) {
         this.messagingTemplate = messagingTemplate
+        this.stocksRepository = stocksRepository
+        this.webTaskClient = webTaskClient
     }
 
-    @MessageMapping("/send")
-    void getShares(String message) {
-        this.messagingTemplate.convertAndSend('/chat', message)
+    @Scheduled(fixedRate = 5000l)
+    private void scheduledStockUpdating() {
+        try {
+            def stocks = getCurrentStocks()
+            def stocksFound = stocksRepository.findByPublicationDate(stocks.publicationDate)
+            if (stocksFound) {
+                stocksRepository.insert(stocks)
+                this.messagingTemplate.convertAndSend('/wsoc/stocks', stocks)
+            }
+            log.info(stocks.toString())
+        } catch(ResourceAccessException e) {
+            log.info("Stock update failed", e)
+        }
     }
-
-    //@Scheduled(fixedRate = 5000l)
-    void scheduledTesting() {
-        final String uri =  'http://webtask.future-processing.com:8068/stocks'
-
-        RestTemplate restTemplate = new RestTemplate()
-        def result = restTemplate.getForObject(uri, Stocks.class)
-        this.messagingTemplate.convertAndSend('/stocks', new TestResponse(id: 1, name: 'DONE!'))
-        log.info(result.toString())
+    
+    private Stocks getCurrentStocks() {
+        webTaskClient.getWebTaskStocks()
     }
 
 }

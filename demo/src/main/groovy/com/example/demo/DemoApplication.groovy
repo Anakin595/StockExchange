@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 
 @EnableWebSecurity
-@EnableAutoConfiguration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableScheduling
 @SpringBootApplication
