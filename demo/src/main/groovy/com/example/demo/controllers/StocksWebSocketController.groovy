@@ -32,7 +32,7 @@ class StocksWebSocketController {
         try {
             def stocks = getCurrentStocks()
             def stocksFound = stocksRepository.findByPublicationDate(stocks.publicationDate)
-            if (stocksFound) {
+            if (!stocksFound) {
                 stocksRepository.insert(stocks)
                 this.messagingTemplate.convertAndSend('/wsoc/stocks', stocks)
             }

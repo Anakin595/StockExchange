@@ -17,7 +17,7 @@ class UserStock {
     String code
     
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    BigDecimal amount
+    BigDecimal money
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     int units

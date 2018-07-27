@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @CompileStatic
 @ResponseStatus(HttpStatus.NOT_FOUND)
-class RemoteServiceException extends Exception {
-    
-    RemoteServiceException(Throwable e) {
-        super(e)
+class StockDoNotExistException extends Exception {
+
+    StockDoNotExistException(String message) {
+        super(message)
     }
 }
